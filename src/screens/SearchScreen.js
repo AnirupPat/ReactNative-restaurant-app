@@ -4,11 +4,11 @@ import SearchBar from '../components/SearchBar';
 import yelp from '../api/yelp';
 import useResults from '../hooks/useResults';
 import ResultsList from '../components/ResultsList';
+import { ScrollView } from 'react-native-gesture-handler';
 
-const SearchScreen = () => {
+const SearchScreen = ({ navigation }) => {
   const [term, setTerm] = useState('');
   const [searchApi, results , errorMessage] = useResults();
-  console.log(results)
 
   const filterResultByPrice = (price) => {
     // price === '$' || '$$' || '$$$'
@@ -18,18 +18,32 @@ const SearchScreen = () => {
   };
 
   return (
-    <View>
+    // View style={{ flex: 1 }}
+     <>
       <SearchBar
         term={term}
         onTermChange={newTerm => setTerm(newTerm)}
         onTermSubmit={() => searchApi(term)}
       />
       {errorMessage ? <Text>{errorMessage}</Text> : null} 
-      <Text>We have found {results.length} results</Text>
-      <ResultsList results={filterResultByPrice('$')} title="Cost Effective"></ResultsList>
-      <ResultsList results={filterResultByPrice('$$')} title="Bit Pricier"></ResultsList>
-      <ResultsList results={filterResultByPrice('$$$')} title="Big Spender"></ResultsList>
-    </View>
+      <ScrollView>
+        <ResultsList 
+            navigation={navigation}
+            results={filterResultByPrice('$')} 
+            title="Cost Effective">
+        </ResultsList>
+        <ResultsList 
+            results={filterResultByPrice('$$')} 
+            title="Bit Pricier"
+            navigation={navigation}>
+        </ResultsList>
+        <ResultsList 
+            navigation={navigation}
+            results={filterResultByPrice('$$')} 
+            title="Big Spender">
+        </ResultsList>
+      </ScrollView>
+    </>
   );
 };
 
