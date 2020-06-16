@@ -4,7 +4,7 @@ import { exp } from 'react-native-reanimated';
 
 const ResultDetails = ({ result }) => {
     return (
-        <View>
+        <View style={styles.container}>
             <Image style={styles.image} source={{ uri: result.image_url }} />
             <Text style={styles.name}>{result.name}</Text>
     <Text>{result.rating} Stars, {result.review_count} Reviews</Text>
@@ -13,11 +13,14 @@ const ResultDetails = ({ result }) => {
 };
 
 const styles = StyleSheet.create({
+    container: {
+        marginLeft: 15
+    },
     image: {
         width: 250,
         height: 200,
         borderRadius: 5,
-        margin: 5
+        marginBottom: 5
     },
     name: {
         fontWeight: "bold",
